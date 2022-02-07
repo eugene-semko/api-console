@@ -1,0 +1,45 @@
+.input {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    height: 40px;
+    transition: 0.2s;
+    width: 100%;
+    font-family: var(--font-roboto);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 30px;
+    padding: 5px 10px;
+}
+.input:hover {
+    border: 1px solid rgba(0, 0, 0, 0.4);
+}
+.input:focus {
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 7px;
+    outline: none;
+    transition: 0.2s;
+}
+.labels_container {
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.label {
+    font-family: var(--font-roboto);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    color: #0D0D0D;
+}
+.optional_label {
+    font-family: var(--font-roboto);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 20px;
+    color: #999999;
+
+}
