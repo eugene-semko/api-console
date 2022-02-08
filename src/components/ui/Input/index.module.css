@@ -41,5 +41,12 @@
     font-size: 12px;
     line-height: 20px;
     color: #999999;
-
+}
+.error_container .label {
+    color: #CF2C00;
+}
+.error_container .input {
+    border: 1px solid #CF2C00;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 5px rgba(207, 44, 0, 0.5);
 }

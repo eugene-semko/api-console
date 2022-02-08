@@ -1,1 +1,4 @@
-export const routes = {};
+export const routes = {
+   auth: "/auth",
+   console: "/console",
+};

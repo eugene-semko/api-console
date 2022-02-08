@@ -21,3 +21,39 @@
 .input {
     margin-bottom: 20px;
 }
+.github_label {
+    font-family: var(--font-roboto);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    color: #999999;
+}
+.error_container {
+    padding: 10px;
+    background: rgba(207, 44, 0, 0.1);
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+.error_icon {
+    margin-right: 10px;
+}
+.error_header {
+    font-family: var(--font-roboto);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 30px;
+    color: #CF2C00;
+    display: flex;
+    align-items: center;
+}
+.error_detailing {
+    font-family: var(--font-roboto);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 20px;
+    color: #CF2C00;
+    margin-left: 32px;
+}
