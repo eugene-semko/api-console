@@ -5,4 +5,8 @@ export const lsController = builders.localStorage<{
    login?: string;
    sublogin?: string;
    password?: string;
+   size?: {
+      left: number;
+      right: number;
+   };
 }>();

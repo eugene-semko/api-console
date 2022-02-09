@@ -6,6 +6,7 @@ import { connectRouter, routerMiddleware } from "connected-react-router";
 import { authSlice } from "./authSlice";
 import { loadingSlice } from "./loadingSlice";
 import { rootSaga } from "../sagas";
+import { consoleSlice } from "./consoleSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 export const history = createBrowserHistory();
@@ -14,6 +15,7 @@ const reducer = combineReducers({
    router: connectRouter(history),
    authSlice: authSlice.reducer,
    loadingSlice: loadingSlice.reducer,
+   consoleSlice: consoleSlice.reducer,
 });
 
 export const store = configureStore({

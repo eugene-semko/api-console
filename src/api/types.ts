@@ -4,4 +4,7 @@ export namespace mainApiNamespace {
       sublogin?: string;
       password?: string;
    };
+   export type requestPayloadType = {
+      [key: string]: any;
+   };
 }

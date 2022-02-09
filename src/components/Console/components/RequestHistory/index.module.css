@@ -1,0 +1,7 @@
+.container {
+    width: 100%;
+    background: #F6F6F6;
+    height: 50px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
