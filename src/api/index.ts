@@ -19,5 +19,10 @@ class MainApiClass {
          passwd: jsonPayload.password,
       });
    };
+   logout = () => {
+      sendsay.request({
+         action: "logout",
+      });
+   };
 }
 export const mainApi = new MainApiClass();
