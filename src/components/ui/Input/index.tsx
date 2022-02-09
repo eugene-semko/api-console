@@ -18,6 +18,7 @@ export const Input: FC<propsType> = (props) => {
       <div
          className={classNames({
             [styles.container]: true,
+            [styles.error_container]: props.error,
             [`${props.className}`]: props.className,
          })}
       >

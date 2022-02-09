@@ -9,15 +9,15 @@ import { ConnectedRouter } from "connected-react-router";
 import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
-   <React.StrictMode>
-      <Provider store={store}>
+   <Provider store={store}>
+      <React.StrictMode>
          <BrowserRouter>
             <ConnectedRouter history={history}>
                <App />
             </ConnectedRouter>
          </BrowserRouter>
-      </Provider>
-   </React.StrictMode>,
+      </React.StrictMode>
+   </Provider>,
    document.getElementById("root")
 );
 reportWebVitals();
