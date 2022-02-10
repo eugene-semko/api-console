@@ -1,0 +1,75 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    background: #F6F6F6;
+}
+.left {
+    display: flex;
+    align-items: center;
+}
+.logo {
+    margin-left: 15px;
+    margin-right: 20px;
+}
+.title {
+    font-family: var(--font-roboto);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 30px;
+    color: #0D0D0D;
+}
+.right {
+    display: flex;
+    margin-right: 16px;
+    align-items: center;
+}
+.acc_info {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 5px 15px;
+    font-family: var(--font-roboto);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    color: #0D0D0D;
+    display: flex;
+}
+.dots {
+    color: rgba(0, 0, 0, 0.2);
+}
+.logout_button {
+    font-family: var(--font-roboto);
+     font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    color: #0D0D0D;
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+    margin-right: 30px;
+    transition: 0.2s;
+}
+.logout_button:hover {
+    transition: 0.2s;
+    color: #0055FB;
+}
+.logout_button:hover .logout_icon path{
+    stroke: #0055FB;
+    transition: 0.2s;
+}
+.logout_icon {
+    margin-left: 11px;
+}
+.fullscreen_button {
+    display: flex;
+    align-items: center;
+}
+.fullscreen_button:hover svg path {
+    stroke: #0055FB;
+    transition: 0.2s;
+}

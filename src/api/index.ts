@@ -1,13 +1,8 @@
-import axios from "axios";
-import { createRequest } from "./methods/createRequest";
 import { mainApiNamespace } from "./types";
 //@ts-ignore
 import Sendsay from "sendsay-api";
 
-export const mainAxios = axios.create({
-   baseURL: "https://api.sendsay.ru/general/api/v100/json",
-});
-const sendsay = new Sendsay();
+export const sendsay = new Sendsay();
 class MainApiClass {
    constructor() {}
 
@@ -18,6 +13,14 @@ class MainApiClass {
          sublogin: jsonPayload.sublogin,
          passwd: jsonPayload.password,
       });
+   };
+   logout = () => {
+      sendsay.request({
+         action: "logout",
+      });
+   };
+   request = (payload: mainApiNamespace.requestPayloadType) => {
+      return sendsay.request(payload);
    };
 }
 export const mainApi = new MainApiClass();

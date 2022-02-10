@@ -7,6 +7,10 @@ import { routes } from "./routes";
 import { useSelector } from "react-redux";
 import { authSliceSelectors } from "./store/authSlice";
 import { history } from "./store";
+import { Preloader } from "./components/ui/Preloader";
+import { processLoading } from "./store/loadingSlice";
+import { sagaActions } from "./sagas/actions";
+import { Console } from "./components/Console";
 
 function App() {
    const goodResponse = useSelector(authSliceSelectors.goodResponse);
@@ -15,13 +19,18 @@ function App() {
          history.push(routes.auth);
       }
    }, [goodResponse]);
+
+   const isAutoAuthLoading = useSelector(
+      processLoading.get(sagaActions.auth.autoAuth.type)
+   );
+   if (isAutoAuthLoading) return <Preloader />;
    return (
       <div className='App'>
          <Route path={routes.auth}>
             <Authorization />
          </Route>
          <Route path={routes.console}>
-            <div>2</div>
+            <Console />
          </Route>
       </div>
    );

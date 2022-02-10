@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { StateType } from "../index";
+import { lsController } from "../../localStorage";
+import { sendsay } from "../../api";
 
 type initialStateType = {
    goodResponse?: {
@@ -18,6 +20,8 @@ export const authSlice = createSlice({
    reducers: {
       setResponse: (state, { payload }: PayloadAction<any>) => {
          state.goodResponse = payload;
+         lsController.set("session", payload.session);
+         sendsay.setSession(payload.session);
       },
       setError: (state, { payload }: PayloadAction<any>) => {
          state.error = payload;

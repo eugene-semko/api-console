@@ -1,0 +1,32 @@
+.container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(2px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.fit_space_container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.loader {
+    width: 100px;
+    height: 100px;
+    animation:spin 1.2s ease-in-out infinite;
+}
+.loader path {
+    fill:   #C4C4C4;
+    stroke: #C4C4C4;
+}
+
+@keyframes spin {
+    100% {
+        transform:rotate(360deg);
+    }
+}
