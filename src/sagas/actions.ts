@@ -6,4 +6,7 @@ export const sagaActions = {
       autoAuth: createAction("auth/autoAuth"),
       login: createAction<mainApiNamespace.login>("auth/login"),
    },
+   console: {
+      createRequest: createAction<string>("console/createRequest"),
+   },
 };

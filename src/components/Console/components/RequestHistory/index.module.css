@@ -6,8 +6,41 @@
     border-top: 1px solid rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
+    padding-left: 5px;
+    position: relative;
+    z-index: 1000;
+}
+.history_container {
+    display: flex;
+    align-items: center;
     flex-wrap: nowrap;
     flex-direction: row-reverse;
     justify-content: flex-end;
-    padding-left: 5px;
+    position: relative;
+    transition: 0.2s;
+}
+.container::-webkit-scrollbar {
+    display: none;
+}
+.clear_button {
+    padding: 12px;
+    position: absolute;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 48px;
+    background: #F6F6F6;
+    z-index: 1000;
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+.shadow {
+    position: absolute;
+    right: 50px;
+    width: 30px;
+    pointer-events: none;
+    height: 100%;
+    background: linear-gradient(269.93deg, #F6F6F6 0.06%, rgba(246, 246, 246, 0) 99.93%);
 }

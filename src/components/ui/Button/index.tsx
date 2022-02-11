@@ -1,4 +1,4 @@
-import React, { AllHTMLAttributes, ButtonHTMLAttributes, FC } from "react";
+import React, { ButtonHTMLAttributes, FC } from "react";
 import styles from "./index.module.css";
 import classNames from "classnames";
 import { ReactComponent as LoaderIcon } from "../../../assets/loader.svg";

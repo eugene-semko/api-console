@@ -1,4 +1,5 @@
 import * as yup from "yup";
+
 export const authorizationScheme = yup.object().shape({
    login: yup
       .string()

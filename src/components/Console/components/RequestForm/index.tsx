@@ -1,35 +1,29 @@
-import React, {
-   ButtonHTMLAttributes,
-   DetailedHTMLProps,
-   DragEventHandler,
-   FC,
-   useEffect,
-   useRef,
-   useState,
-} from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import styles from "./index.module.css";
-import { Button } from "../../../ui/Button";
-import { ReactComponent as FormatIcon } from "../../../../assets/format.svg";
+import { Button } from "components/ui/Button";
+import { ReactComponent as FormatIcon } from "assets/format.svg";
 import classNames from "classnames";
-import { ReactComponent as ResizeIcon } from "../../../../assets/resize.svg";
+import { ReactComponent as ResizeIcon } from "assets/resize.svg";
 import { useForm, useWatch } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import {
-   consoleSlice,
-   consoleSliceSelectors,
-} from "../../../../store/consoleSlice";
-import { mainApi } from "../../../../api";
-import { Preloader } from "../../../ui/Preloader";
-import { lsController } from "../../../../localStorage";
+import { consoleSlice, consoleSliceSelectors } from "store/consoleSlice";
+import { mainApi } from "api";
+import { Preloader } from "components/ui/Preloader";
+import { lsController } from "localStorage";
+import { sagaActions } from "../../../../sagas/actions";
+import { processLoading } from "../../../../store/loadingSlice";
 
 type propsType = {};
 export const RequestForm: FC<propsType> = (props) => {
    const dispatch = useDispatch();
    const { control, setValue } = useForm();
 
-   const [isResponseLoading, setIsResponseLoading] = useState(false);
-   const [isJsonInputError, setIsJsonInputError] = useState(false);
-   const [isResponseError, setIsResponseError] = useState(false);
+   const isResponseLoading = useSelector(
+      processLoading.get(sagaActions.console.createRequest.type)
+   );
+   const storeRequest = useSelector(consoleSliceSelectors.currentRequest);
+   const isJsonInputError = useSelector(consoleSliceSelectors.isJsonInputError);
+   const isResponseError = useSelector(consoleSliceSelectors.isResponseError);
    const [initialClickWidth, setInitialClickWidth] = useState(0);
    const [isResizeAllowed, setIsResizeAllowed] = useState(false);
 
@@ -65,15 +59,17 @@ export const RequestForm: FC<propsType> = (props) => {
 
    useEffect(() => {
       if (isJsonInputError) {
-         setIsJsonInputError(false);
+         dispatch(consoleSlice.actions.setJsonInputError(false));
       }
    }, [requestInput]);
 
    useEffect(() => {
-      if (isResponseError) {
-         setIsResponseError(false);
+      if (storeRequest) {
+         setValue("request", JSON.stringify(storeRequest, null, 2));
+         dispatch(consoleSlice.actions.setCurrentResponse(""));
+         dispatch(consoleSlice.actions.setIsResponseError(false));
       }
-   }, [currentResponse]);
+   }, [storeRequest]);
 
    const resizeHandler = (event?: any) => {
       if (rightWindowRef.current && leftWindowRef.current && isResizeAllowed) {
@@ -97,57 +93,12 @@ export const RequestForm: FC<propsType> = (props) => {
       try {
          setValue("request", JSON.stringify(JSON.parse(requestInput), null, 2));
       } catch (e) {
-         setIsJsonInputError(true);
+         dispatch(consoleSlice.actions.setJsonInputError(true));
       }
    };
 
-   const sendRequest = async () => {
-      try {
-         JSON.parse(requestInput);
-         try {
-            setIsResponseLoading(true);
-            const request = JSON.parse(requestInput);
-            const response = await mainApi.request(request);
-            dispatch(
-               consoleSlice.actions.setCurrentResponse(
-                  JSON.stringify(response, null, 2)
-               )
-            );
-            dispatch(
-               consoleSlice.actions.addRequestToHistory({
-                  action: request.action,
-                  resendAction: request,
-                  success: true,
-               })
-            );
-            setTimeout(() => {
-               setIsResponseLoading(false);
-            }, 600);
-         } catch (e: any) {
-            const request = JSON.parse(requestInput);
-            if (e.id != "access_denied" && request.action) {
-               dispatch(
-                  consoleSlice.actions.addRequestToHistory({
-                     action: request.action,
-                     resendAction: request,
-                     success: false,
-                  })
-               );
-            }
-
-            setTimeout(() => {
-               setIsResponseError(true);
-               setIsResponseLoading(false);
-            }, 600);
-            dispatch(
-               consoleSlice.actions.setCurrentResponse(
-                  JSON.stringify(e, null, 2)
-               )
-            );
-         }
-      } catch (e) {
-         setIsJsonInputError(true);
-      }
+   const sendRequest = () => {
+      dispatch(sagaActions.console.createRequest(requestInput));
    };
    return (
       <div

@@ -1,4 +1,4 @@
-import React, { AllHTMLAttributes, FC, useEffect, useState } from "react";
+import React, { AllHTMLAttributes, FC } from "react";
 import styles from "./index.module.css";
 import classNames from "classnames";
 import { Control, Controller } from "react-hook-form";
