@@ -28,9 +28,11 @@ export const RequestForm: FC<propsType> = (props) => {
    const { control, setValue } = useForm();
 
    const [isResponseLoading, setIsResponseLoading] = useState(false);
-   const [isJsonInputError, setIsJsonInputError] = useState(true);
-   const [initialWidth, setInitialWidth] = useState(0);
+   const [isJsonInputError, setIsJsonInputError] = useState(false);
+   const [isResponseError, setIsResponseError] = useState(false);
+   const [initialClickWidth, setInitialClickWidth] = useState(0);
    const [isResizeAllowed, setIsResizeAllowed] = useState(false);
+
    const currentResponse = useSelector(consoleSliceSelectors.currentResponse);
 
    const leftWindowRef = useRef<HTMLDivElement>(null);
@@ -49,30 +51,46 @@ export const RequestForm: FC<propsType> = (props) => {
             lsController.get("size")!.left + "px";
          rightWindowRef.current.style.width =
             lsController.get("size")!.right + "px";
-      }
-      return () => {
+      } else if (
+         !lsController.get("size") &&
+         leftWindowRef.current &&
+         rightWindowRef.current
+      ) {
          lsController.set("size", {
-            left: leftWindowRef.current!.offsetWidth,
-            right: rightWindowRef.current!.offsetWidth,
+            left: leftWindowRef.current.offsetWidth,
+            right: rightWindowRef.current.offsetWidth,
          });
-      };
+      }
    }, []);
+
    useEffect(() => {
       if (isJsonInputError) {
          setIsJsonInputError(false);
       }
    }, [requestInput]);
 
+   useEffect(() => {
+      if (isResponseError) {
+         setIsResponseError(false);
+      }
+   }, [currentResponse]);
+
    const resizeHandler = (event?: any) => {
-      console.log(initialWidth - event.clientX);
       if (rightWindowRef.current && leftWindowRef.current && isResizeAllowed) {
          leftWindowRef.current.style.width = `${
-            leftWindowRef.current.offsetWidth - (initialWidth - event.clientX)
+            lsController.get("size")!.left - (initialClickWidth - event.clientX)
          }px`;
 
          rightWindowRef.current.style.width = `${
-            rightWindowRef.current.offsetWidth + (initialWidth - event.clientX)
+            lsController.get("size")!.right +
+            (initialClickWidth - event.clientX)
          }px`;
+      }
+      if (leftWindowRef.current!.offsetWidth < 70) {
+         leftWindowRef.current!.style.width = "70px";
+      }
+      if (rightWindowRef.current!.offsetWidth < 70) {
+         rightWindowRef.current!.style.width = "70px";
       }
    };
    const formatInput = () => {
@@ -88,17 +106,37 @@ export const RequestForm: FC<propsType> = (props) => {
          JSON.parse(requestInput);
          try {
             setIsResponseLoading(true);
-            const response = await mainApi.request(JSON.parse(requestInput));
+            const request = JSON.parse(requestInput);
+            const response = await mainApi.request(request);
             dispatch(
                consoleSlice.actions.setCurrentResponse(
                   JSON.stringify(response, null, 2)
                )
             );
+            dispatch(
+               consoleSlice.actions.addRequestToHistory({
+                  action: request.action,
+                  resendAction: request,
+                  success: true,
+               })
+            );
             setTimeout(() => {
                setIsResponseLoading(false);
             }, 600);
-         } catch (e) {
+         } catch (e: any) {
+            const request = JSON.parse(requestInput);
+            if (e.id != "access_denied" && request.action) {
+               dispatch(
+                  consoleSlice.actions.addRequestToHistory({
+                     action: request.action,
+                     resendAction: request,
+                     success: false,
+                  })
+               );
+            }
+
             setTimeout(() => {
+               setIsResponseError(true);
                setIsResponseLoading(false);
             }, 600);
             dispatch(
@@ -115,7 +153,13 @@ export const RequestForm: FC<propsType> = (props) => {
       <div
          className={styles.container}
          onMouseMove={(e) => isResizeAllowed && resizeHandler(e)}
-         onMouseUp={() => isResizeAllowed && setIsResizeAllowed(false)}
+         onMouseUp={() => {
+            isResizeAllowed && setIsResizeAllowed(false);
+            lsController.set("size", {
+               left: leftWindowRef.current!.offsetWidth,
+               right: rightWindowRef.current!.offsetWidth,
+            });
+         }}
       >
          <div className={styles.consoles_container}>
             <div className={styles.request_container} ref={leftWindowRef}>
@@ -131,7 +175,7 @@ export const RequestForm: FC<propsType> = (props) => {
             <button
                className={styles.resize_container}
                onMouseDown={(e) => {
-                  setInitialWidth(e.clientX);
+                  setInitialClickWidth(e.clientX);
                   setIsResizeAllowed(true);
                }}
             >
@@ -150,6 +194,7 @@ export const RequestForm: FC<propsType> = (props) => {
                      value={currentResponse}
                      className={classNames({
                         [styles.textarea]: true,
+                        [styles.textarea_error]: isResponseError,
                      })}
                   />
                )}

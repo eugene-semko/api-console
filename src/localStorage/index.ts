@@ -1,4 +1,5 @@
 import { builders } from "react-dev-starter-pack";
+import { requestType } from "../store/consoleSlice";
 
 export const lsController = builders.localStorage<{
    session?: string;
@@ -9,4 +10,5 @@ export const lsController = builders.localStorage<{
       left: number;
       right: number;
    };
+   history: Array<requestType>;
 }>();
