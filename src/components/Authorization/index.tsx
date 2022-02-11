@@ -9,7 +9,7 @@ import { sagaActions } from "../../sagas/actions";
 import { processLoading } from "../../store/loadingSlice";
 import { authorizationScheme } from "../../validation/schemas";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { authSlice, authSliceSelectors } from "../../store/authSlice";
+import { authSliceSelectors } from "../../store/authSlice";
 import { ReactComponent as ErrorIcon } from "../../assets/meh.svg";
 
 type propsType = {};

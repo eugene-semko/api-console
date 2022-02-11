@@ -1,9 +1,5 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { mainApiNamespace } from "../../../api/types";
 import { processStateController } from "../../../helpers/processLoading";
-import { mainApi } from "../../../api";
 import { call, delay, put } from "redux-saga/effects";
-import { sagaApiType } from "../../types";
 import { authSlice } from "../../../store/authSlice";
 import { push } from "connected-react-router";
 import { routes } from "../../../routes";
